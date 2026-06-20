@@ -1,0 +1,78 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PromptArmor API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Api-Key",
+      "value": "{{apiKey}}",
+      "in": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Content Check",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Check content for adversarial / injected instructions",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.promptarmor.com/v1/check_content",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"content\": \"<string>\",\n  \"session_id\": \"<string>\",\n  \"detectors\": [\"<string>\"]\n}"
+            }
+          },
+          "docs": "Submits content to the PromptArmor detection engine and returns a verdict including a containsInjection boolean."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Analyze",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Analyze LLM input",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.promptarmor.com/v1/analyze/input",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"text\": \"<string>\",\n  \"session_id\": \"<string>\",\n  \"detectors\": [\"<string>\"]\n}"
+            }
+          },
+          "docs": "Analyzes LLM input and runs the detectors, returning a verdict. session_id enables session-based anomaly detection."
+        },
+        {
+          "info": {
+            "name": "Analyze LLM output",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.promptarmor.com/v1/analyze/output",
+            "body": {
+              "type": "json",
+              "data": "{\n  \"text\": \"<string>\",\n  \"session_id\": \"<string>\",\n  \"detectors\": [\"<string>\"]\n}"
+            }
+          },
+          "docs": "Analyzes LLM output and runs the detectors, returning a verdict. session_id enables session-based anomaly detection."
+        }
+      ]
+    }
+  ]
+}

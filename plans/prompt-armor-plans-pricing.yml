@@ -1,0 +1,80 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: PromptArmor
+providerId: prompt-armor
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: false
+tags:
+- AI
+- LLM
+- Security
+- Prompt Injection
+- Threat Detection
+- Plans
+description: >-
+  PromptArmor is a sales-led enterprise AI security platform. It does not
+  publish self-serve pricing tiers or a public price list for its detection
+  API; access is arranged via contact with the company and is positioned for
+  teams ranging from AI-native startups to Fortune 100s and large law firms.
+  Standalone professional services (for example LLM penetration testing) have
+  been referenced starting around $1,000 by third-party listings, but the
+  core detection API is quoted per engagement. Pricing details below are not
+  reconciled because no authoritative public price list is available.
+notes: >-
+  Pricing is not publicly documented. Verify all figures directly with
+  PromptArmor sales during reconciliation; the LLM pentesting starting price
+  is from a third-party directory listing, not PromptArmor's own pricing page.
+sources:
+- https://www.promptarmor.com/
+- https://promptarmor.readme.io/
+- https://getcoai.com/tool-detail/promptarmor/164570/
+plans:
+- id: prompt-armor-enterprise
+  name: Enterprise (Contact Sales)
+  type: enterprise
+  description: >-
+    Sales-led access to the PromptArmor detection API and platform
+    (Content Check, Analyze input/output, session monitoring) with
+    negotiated terms. Pricing not publicly listed.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Content Check API
+  - name: Analyze API (input/output)
+  - name: Session Monitoring
+  - name: Modifiable Detectors
+- id: prompt-armor-services
+  name: Professional Services
+  type: usage
+  description: >-
+    Standalone security engagements such as LLM penetration testing, with
+    certification on successful testing. Pricing referenced by third-party
+    listings only; not confirmed on PromptArmor's site.
+  entries:
+  - label: LLM Penetration Testing
+    name: llm_pentest
+    type: flat
+    metric: engagement
+    limit: -1
+    timeFrame: usage
+    geo: global
+    unit: 1
+    price: from ~$1,000 (per third-party listing; unverified)
+    userMultiplied: false
+  elements:
+  - name: LLM Pentesting
+  - name: Certification
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

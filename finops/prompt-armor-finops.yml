@@ -1,0 +1,99 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: PromptArmor
+providerId: prompt-armor
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: false
+tags:
+- AI
+- LLM
+- Security
+- Prompt Injection
+- Threat Detection
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of PromptArmor spend. PromptArmor is a sales-led enterprise AI
+  security platform with no published usage-based price list, so cost is
+  typically a negotiated subscription / contract rather than a transparent
+  per-call rate. The natural cost driver is the volume of content checked and
+  analyzed (Content Check and Analyze input/output calls), so usage meters are
+  modeled here for internal allocation even though PromptArmor does not
+  publicly expose per-call pricing.
+notes: >-
+  No public billing or usage-export documentation is available. The meters
+  below are a FinOps modeling convenience for tracking internal consumption of
+  the detection API; reconcile actual billing dimensions and any contract
+  structure directly with PromptArmor.
+sources:
+- https://www.promptarmor.com/
+- https://promptarmor.readme.io/
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: PromptArmor
+serviceCategory: Security
+billingModel:
+  pricingCategory: Subscription-Based
+  billingFrequency: Annual
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+focusColumns:
+  ServiceName: PromptArmor
+  ServiceCategory: Security
+  ProviderName: PromptArmor
+  PublisherName: PromptArmor
+  InvoiceIssuerName: PromptArmor
+  BillingCurrency: USD
+  ChargeCategory: Purchase
+  PricingCategory: Subscription-Based
+meters:
+- name: content_check_calls
+  description: Calls to /v1/check_content evaluated by the detection engine.
+  unit: requests
+  aggregation: sum
+  dimensions:
+  - account
+  - api_key
+- name: analyze_input_calls
+  description: Calls to /v1/analyze/input run through the detectors.
+  unit: requests
+  aggregation: sum
+  dimensions:
+  - account
+  - api_key
+- name: analyze_output_calls
+  description: Calls to /v1/analyze/output run through the detectors.
+  unit: requests
+  aggregation: sum
+  dimensions:
+  - account
+  - api_key
+- name: sessions_monitored
+  description: Distinct session_id values run through session-based anomaly detection.
+  unit: sessions
+  aggregation: sum
+  dimensions:
+  - account
+  - api_key
+principles:
+- name: Visibility
+  description: Tag PromptArmor API keys per application/workload and count detection calls to attribute cost even without a public per-call rate.
+- name: Allocation
+  description: Map API keys to internal cost centers and protected products.
+- name: Optimization
+  description: Apply detection where untrusted content enters the LLM (inputs) and where sensitive output leaves it, rather than on every benign call, to control volume.
+- name: Accountability
+  description: Review the negotiated PromptArmor contract against actual detection volume during renewals.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

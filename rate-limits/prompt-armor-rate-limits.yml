@@ -1,0 +1,55 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: PromptArmor
+providerId: prompt-armor
+created: '2026-06-20'
+modified: '2026-06-20'
+reconciled: false
+tags:
+- AI
+- LLM
+- Security
+- Prompt Injection
+- Threat Detection
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  PromptArmor's detection API is marketed as returning verdicts in real time,
+  faster than the LLM completion it protects. PromptArmor does not publicly
+  document specific rate limits, quotas, or throttling thresholds for its
+  Content Check and Analyze endpoints; limits are presumed to be governed by
+  per-customer enterprise agreements. Specific values are not reconciled in
+  this artifact.
+notes: >-
+  No public rate-limit documentation is available. Confirm any per-account RPS,
+  RPM, or concurrency limits and the throttling response code directly with
+  PromptArmor during reconciliation. The 429 status below is the conventional
+  throttling code and is assumed, not confirmed in PromptArmor's public docs.
+sources:
+- https://www.promptarmor.com/
+- https://promptarmor.readme.io/reference/basics-of-promptarmor-architecture
+responseCodes:
+  throttled: 429
+limits:
+- name: Requests Per Account
+  scope: account
+  metric: requests
+  limit: see provider documentation
+  notes: >-
+    Not publicly documented; governed by enterprise agreement. PromptArmor
+    markets low-latency real-time verdicts but does not publish a request cap.
+- name: Concurrency
+  scope: account
+  metric: concurrent_requests
+  limit: see provider documentation
+  notes: Not publicly documented.
+policies:
+- name: Enterprise Negotiated Limits
+  description: Throughput is presumed negotiated per enterprise contract rather than fixed public tiers.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor any Retry-After header on throttling.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,100 @@
+aid: prompt-armor
+name: PromptArmor
+review:
+  question: Does PromptArmor expose a documented public WebSocket or streaming API?
+  answer: false
+  date: '2026-06-20'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was created. PromptArmor's detection API is a
+    synchronous request/response HTTPS REST surface: a client POSTs content
+    and receives a verdict in a single response. No WebSocket (ws:// or
+    wss://) endpoint and no HTTP Server-Sent Events (SSE) streaming surface
+    is documented, so there is no event-driven transport to model.
+findings:
+  summary: |
+    PromptArmor (promptarmor.com, YC W24) is an LLM application security
+    platform. Its developer API is a low-latency synchronous REST service at
+    https://api.promptarmor.com that runs submitted content through a
+    detection engine of default and modifiable detectors (data exfiltration,
+    phishing, system manipulation, adversarial instructions) and returns a
+    verdict, including a containsInjection boolean. Confirmed public detail:
+    a POST /v1/check_content endpoint authenticated with an Api-Key header and
+    a containsInjection response field. The architecture overview additionally
+    describes analyze endpoints for LLM input and output (for example
+    /v1/analyze/input and /v1/analyze/output) and session-based anomaly
+    detection when a session_id is supplied.
+
+    The full API reference at https://promptarmor.readme.io is gated behind a
+    password, so exact request/response schemas beyond the publicly indexed
+    fields could not be fully verified at review time. The endpoints,
+    Api-Key auth, base URL, and the containsInjection / session_id / detectors
+    fields modeled here come from PromptArmor's own architecture overview and
+    third-party integration guides (for example Baserun, which uses a
+    PROMPTARMOR_API_KEY). Remaining schema detail should be reconciled against
+    the authenticated documentation.
+  uncertainties:
+    - The authenticated readme.io reference could not be crawled; analyze
+      endpoint paths (/v1/analyze/input, /v1/analyze/output) are documented in
+      the architecture overview but their exact request/response schemas are
+      not fully confirmed.
+    - Beyond the confirmed containsInjection verdict field, per-detector
+      response structure is modeled conservatively.
+    - Pricing is sales-led with no public price list; the ~$1,000 LLM
+      pentesting figure is from a third-party directory, not PromptArmor.
+    - The promptarmor.com company (YC W24) has no confirmed public GitHub
+      organization. Unrelated GitHub repos named "prompt-armor" /
+      "PromptArmor" exist (open-source detectors by other authors) and are
+      NOT this company; no GitHubOrganization common property was added.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.promptarmor.com
+      documented: true
+    - protocol: SSE
+      scheme: https
+      documented: false
+      note: No Server-Sent Events streaming surface is documented.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented for PromptArmor.
+  endpointsConfirmedRest:
+    - POST https://api.promptarmor.com/v1/check_content
+  endpointsDocumentedNotFullyVerified:
+    - POST https://api.promptarmor.com/v1/analyze/input
+    - POST https://api.promptarmor.com/v1/analyze/output
+  authentication:
+    scheme: API Key
+    header: Api-Key
+    note: Confirmed via the check_content reference and the Baserun integration (PROMPTARMOR_API_KEY).
+sources:
+  - url: https://www.promptarmor.com/
+    type: Website
+    note: Company overview; markets real-time API to connect PromptArmor intelligence to existing systems. No public price list.
+  - url: https://promptarmor.readme.io/reference/basics-of-promptarmor-architecture
+    type: Documentation
+    note: Architecture overview describing analyze input/output endpoints, default vs modifiable detectors, and session-based anomaly detection. Now password-gated.
+  - url: https://promptarmor.readme.io/reference/post_v1-check-content
+    type: APIReference
+    note: POST /v1/check_content with Api-Key header and containsInjection response field. Now password-gated.
+  - url: https://docs.baserun.ai/integrations/promptarmor
+    type: Documentation
+    note: Third-party integration confirming PROMPTARMOR_API_KEY and input checking before completion.
+  - url: https://www.linkedin.com/company/promptarmor
+    type: LinkedIn
+    note: Confirms YC W24, San Francisco, founded 2023; LLM application security for enterprise threats.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    PromptArmor exposes only a synchronous REST detection API. No WebSocket or
+    SSE transport is documented, so no AsyncAPI document was authored. The
+    apis.yml catalogs three logical sub-APIs (Content Check, Analyze,
+    Session Monitoring) over the single REST surface, and an OpenAPI 3.0.1
+    document was authored covering the publicly documented endpoints with the
+    uncertainty noted in its description.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

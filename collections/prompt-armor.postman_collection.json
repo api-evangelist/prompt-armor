@@ -1,0 +1,163 @@
+{
+  "info": {
+    "_postman_id": "b1d2c3e4-5f60-4a71-8b92-0c1d2e3f4a50",
+    "name": "PromptArmor API",
+    "description": "PromptArmor LLM application security detection API. Submits content, LLM input, and LLM output to PromptArmor's detection engine and returns a verdict (containsInjection) for known threat classes such as data exfiltration, phishing, system manipulation, and adversarial instructions. Authenticated with an Api-Key header.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Api-Key",
+        "type": "string"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}",
+        "type": "string"
+      },
+      {
+        "key": "in",
+        "value": "header",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.promptarmor.com"
+    },
+    {
+      "key": "apiKey",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Content Check",
+      "item": [
+        {
+          "name": "Check content for adversarial / injected instructions",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Api-Key",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/check_content",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "check_content"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"<string>\",\n  \"session_id\": \"<string>\",\n  \"detectors\": [\"<string>\"]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Submits content to the PromptArmor detection engine and returns a verdict including a containsInjection boolean."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Analyze",
+      "item": [
+        {
+          "name": "Analyze LLM input",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Api-Key",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/analyze/input",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "analyze",
+                "input"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"<string>\",\n  \"session_id\": \"<string>\",\n  \"detectors\": [\"<string>\"]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Analyzes LLM input (for example an email being summarized) and runs the detectors, returning a verdict. When session_id is supplied, session-based anomaly detection is also run."
+          },
+          "response": []
+        },
+        {
+          "name": "Analyze LLM output",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Api-Key",
+                "value": "{{apiKey}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/v1/analyze/output",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "v1",
+                "analyze",
+                "output"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"<string>\",\n  \"session_id\": \"<string>\",\n  \"detectors\": [\"<string>\"]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Analyzes LLM output (for example a generated summary) and runs the detectors, returning a verdict. When session_id is supplied, session-based anomaly detection is also run."
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

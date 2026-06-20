@@ -1,0 +1,103 @@
+aid: prompt-armor
+url: https://raw.githubusercontent.com/api-evangelist/prompt-armor/refs/heads/main/apis.yml
+name: PromptArmor
+kind: company
+description: PromptArmor (YC W24) is an LLM application security platform that detects
+  and blocks enterprise-grade threats - indirect prompt injection, data exfiltration,
+  phishing, and system manipulation - in production AI applications. A real-time
+  detection API analyzes LLM inputs and outputs against a continuously updated set
+  of threat detectors before a completion is acted on, returning a fast verdict
+  (for example containsInjection) so applications can block or allow content.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- AI
+- LLM
+- Security
+- Prompt Injection
+- Threat Detection
+created: '2026-06-20'
+modified: '2026-06-20'
+specificationVersion: '0.19'
+apis:
+- aid: prompt-armor:prompt-armor-content-check-api
+  name: PromptArmor Content Check API
+  tags:
+  - Security
+  - Prompt Injection
+  - Threat Detection
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://promptarmor.readme.io/reference/post_v1-check-content
+  baseURL: https://api.promptarmor.com
+  properties:
+  - url: https://promptarmor.readme.io/reference/basics-of-promptarmor-architecture
+    type: Documentation
+  - url: https://promptarmor.readme.io/reference/post_v1-check-content
+    type: APIReference
+  - url: openapi/prompt-armor-openapi.yml
+    type: OpenAPI
+  - url: collections/prompt-armor.postman_collection.json
+    type: PostmanCollection
+  - url: collections/prompt-armor.opencollection.json
+    type: OpenCollection
+  description: Submits content (such as untrusted text an LLM is about to summarize
+    or act on) to PromptArmor's detection engine and returns a verdict - including
+    a containsInjection flag - indicating whether the content matches known threat
+    classes. Authenticated with an Api-Key header.
+- aid: prompt-armor:prompt-armor-analyze-api
+  name: PromptArmor Analyze API
+  tags:
+  - Security
+  - Analyze
+  - Detectors
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://promptarmor.readme.io/reference/basics-of-promptarmor-architecture
+  baseURL: https://api.promptarmor.com
+  properties:
+  - url: https://promptarmor.readme.io/reference/basics-of-promptarmor-architecture
+    type: Documentation
+  - url: openapi/prompt-armor-openapi.yml
+    type: OpenAPI
+  - url: collections/prompt-armor.postman_collection.json
+    type: PostmanCollection
+  - url: collections/prompt-armor.opencollection.json
+    type: OpenCollection
+  description: Analyzes LLM input (for example an email being summarized) and LLM
+    output (for example the generated summary) through PromptArmor's default and
+    modifiable detectors - data exfiltration, phishing, system manipulation, and
+    adversarial instructions - to flag adversarial content in real time before a
+    completion is acted on.
+- aid: prompt-armor:prompt-armor-session-monitoring-api
+  name: PromptArmor Session Monitoring API
+  tags:
+  - Monitoring
+  - Anomaly Detection
+  - Sessions
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://promptarmor.readme.io/reference/basics-of-promptarmor-architecture
+  baseURL: https://api.promptarmor.com
+  properties:
+  - url: https://promptarmor.readme.io/reference/basics-of-promptarmor-architecture
+    type: Documentation
+  - url: openapi/prompt-armor-openapi.yml
+    type: OpenAPI
+  description: When a session_id is supplied on analyze requests, PromptArmor runs
+    session-based anomaly detection, learning normal application behavior and
+    flagging deviations across a session that may indicate a security
+    vulnerability. Surfaced through the same analyze endpoints rather than as a
+    standalone endpoint.
+common:
+- type: LinkedIn
+  url: https://www.linkedin.com/company/promptarmor
+- type: Website
+  url: https://www.promptarmor.com/
+- type: Documentation
+  url: https://promptarmor.readme.io/
+- type: Plans
+  url: plans/prompt-armor-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/prompt-armor-rate-limits.yml
+- type: FinOps
+  url: finops/prompt-armor-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

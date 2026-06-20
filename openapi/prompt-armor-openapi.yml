@@ -1,0 +1,194 @@
+openapi: 3.0.1
+info:
+  title: PromptArmor API
+  description: >-
+    PromptArmor is an LLM application security platform that detects and blocks
+    indirect prompt injection, data exfiltration, phishing, and system
+    manipulation in production AI applications. Content submitted to the API is
+    run through a detection engine of default and modifiable detectors and a
+    fast verdict (for example containsInjection) is returned so the calling
+    application can block or allow the content before a completion is acted on.
+
+
+    NOTE: PromptArmor's full API reference at https://promptarmor.readme.io is
+    gated behind authentication. This specification reflects the endpoints,
+    authentication scheme (Api-Key header), base URL (https://api.promptarmor.com),
+    and request/response fields that are publicly documented in PromptArmor's
+    architecture overview and integration guides. Field names beyond the
+    confirmed `containsInjection` verdict and the `content`, `text`,
+    `session_id`, and `detectors` request parameters are modeled
+    conservatively and should be reconciled against the authenticated docs.
+  termsOfService: https://www.promptarmor.com/
+  contact:
+    name: PromptArmor
+    url: https://www.promptarmor.com/
+  version: '1.0'
+servers:
+  - url: https://api.promptarmor.com
+    description: PromptArmor production API
+security:
+  - ApiKeyAuth: []
+tags:
+  - name: Content Check
+    description: Single-call content verdict against the detection engine.
+  - name: Analyze
+    description: Analyze LLM input and output through the detector engine.
+paths:
+  /v1/check_content:
+    post:
+      operationId: checkContent
+      tags:
+        - Content Check
+      summary: Check content for adversarial / injected instructions.
+      description: >-
+        Submits content (such as untrusted text an LLM is about to summarize or
+        act on) to the PromptArmor detection engine and returns a verdict
+        indicating whether the content matches known threat classes. The
+        response includes a containsInjection boolean.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckContentRequest'
+      responses:
+        '200':
+          description: Detection verdict.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckContentResponse'
+        '401':
+          description: Missing or invalid Api-Key.
+        '429':
+          description: Rate limited.
+  /v1/analyze/input:
+    post:
+      operationId: analyzeInput
+      tags:
+        - Analyze
+      summary: Analyze LLM input.
+      description: >-
+        Analyzes LLM input (for example an email your LLM is about to
+        summarize) and runs the detectors - including adversarial input
+        detection - returning a verdict. When a session_id is supplied,
+        session-based anomaly detection is also run.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnalyzeRequest'
+      responses:
+        '200':
+          description: Detection verdict.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyzeResponse'
+        '401':
+          description: Missing or invalid Api-Key.
+        '429':
+          description: Rate limited.
+  /v1/analyze/output:
+    post:
+      operationId: analyzeOutput
+      tags:
+        - Analyze
+      summary: Analyze LLM output.
+      description: >-
+        Analyzes LLM output (for example the summary your LLM produced) and runs
+        the detectors - including data exfiltration detection - returning a
+        verdict. When a session_id is supplied, session-based anomaly detection
+        is also run.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AnalyzeRequest'
+      responses:
+        '200':
+          description: Detection verdict.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyzeResponse'
+        '401':
+          description: Missing or invalid Api-Key.
+        '429':
+          description: Rate limited.
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Api-Key
+      description: PromptArmor API key passed in the Api-Key request header.
+  schemas:
+    CheckContentRequest:
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: string
+          description: The content to evaluate against the detection engine.
+        session_id:
+          type: string
+          description: >-
+            Optional session identifier. When supplied, PromptArmor also runs
+            session-based anomaly detection across the session.
+        detectors:
+          type: array
+          description: >-
+            Optional list of detectors to apply in addition to / instead of the
+            default detectors (data exfiltration, phishing, system
+            manipulation, adversarial instructions).
+          items:
+            type: string
+    CheckContentResponse:
+      type: object
+      properties:
+        containsInjection:
+          type: boolean
+          description: >-
+            True when the content matches a known injection / threat class. A
+            detector returning true indicates an issue was found for that
+            detection type.
+    AnalyzeRequest:
+      type: object
+      required:
+        - text
+      properties:
+        text:
+          type: string
+          description: >-
+            The LLM input or output text to analyze (for example an email being
+            summarized, or the generated summary).
+        session_id:
+          type: string
+          description: >-
+            Optional session identifier enabling session-based anomaly
+            detection across multiple analyze calls.
+        detectors:
+          type: array
+          description: Optional list of detectors to apply for this request.
+          items:
+            type: string
+    AnalyzeResponse:
+      type: object
+      properties:
+        containsInjection:
+          type: boolean
+          description: >-
+            True when the analyzed text matches a known injection / threat
+            class.
+        detectors:
+          type: object
+          description: >-
+            Per-detector results. A detector value of true indicates an issue
+            was found for that detection type (for example data exfiltration,
+            phishing, system manipulation, adversarial instructions).
+          additionalProperties:
+            type: boolean

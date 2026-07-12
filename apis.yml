@@ -86,6 +86,12 @@ apis:
     vulnerability. Surfaced through the same analyze endpoints rather than as a
     standalone endpoint.
 common:
+- type: VulnerabilityDisclosure
+  url: security/prompt-armor-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/prompt-armor-domain-security.yml
+- type: Authentication
+  url: authentication/prompt-armor-authentication.yml
 - type: LinkedIn
   url: https://www.linkedin.com/company/promptarmor
 - type: Website

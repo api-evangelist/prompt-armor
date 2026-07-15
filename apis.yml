@@ -86,6 +86,8 @@ apis:
     vulnerability. Surfaced through the same analyze endpoints rather than as a
     standalone endpoint.
 common:
+- type: AgenticAccess
+  url: agentic-access/prompt-armor-agentic-access.yml
 - type: VulnerabilityDisclosure
   url: security/prompt-armor-vulnerability-disclosure.yml
 - type: DomainSecurity

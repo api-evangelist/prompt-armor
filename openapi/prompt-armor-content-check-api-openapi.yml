@@ -1,0 +1,75 @@
+openapi: 3.0.1
+info:
+  title: PromptArmor Analyze Content Check API
+  description: 'PromptArmor is an LLM application security platform that detects and blocks indirect prompt injection, data exfiltration, phishing, and system manipulation in production AI applications. Content submitted to the API is run through a detection engine of default and modifiable detectors and a fast verdict (for example containsInjection) is returned so the calling application can block or allow the content before a completion is acted on.
+
+
+    NOTE: PromptArmor''s full API reference at https://promptarmor.readme.io is gated behind authentication. This specification reflects the endpoints, authentication scheme (Api-Key header), base URL (https://api.promptarmor.com), and request/response fields that are publicly documented in PromptArmor''s architecture overview and integration guides. Field names beyond the confirmed `containsInjection` verdict and the `content`, `text`, `session_id`, and `detectors` request parameters are modeled conservatively and should be reconciled against the authenticated docs.'
+  termsOfService: https://www.promptarmor.com/
+  contact:
+    name: PromptArmor
+    url: https://www.promptarmor.com/
+  version: '1.0'
+servers:
+- url: https://api.promptarmor.com
+  description: PromptArmor production API
+security:
+- ApiKeyAuth: []
+tags:
+- name: Content Check
+  description: Single-call content verdict against the detection engine.
+paths:
+  /v1/check_content:
+    post:
+      operationId: checkContent
+      tags:
+      - Content Check
+      summary: Check content for adversarial / injected instructions.
+      description: Submits content (such as untrusted text an LLM is about to summarize or act on) to the PromptArmor detection engine and returns a verdict indicating whether the content matches known threat classes. The response includes a containsInjection boolean.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckContentRequest'
+      responses:
+        '200':
+          description: Detection verdict.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckContentResponse'
+        '401':
+          description: Missing or invalid Api-Key.
+        '429':
+          description: Rate limited.
+components:
+  schemas:
+    CheckContentResponse:
+      type: object
+      properties:
+        containsInjection:
+          type: boolean
+          description: True when the content matches a known injection / threat class. A detector returning true indicates an issue was found for that detection type.
+    CheckContentRequest:
+      type: object
+      required:
+      - content
+      properties:
+        content:
+          type: string
+          description: The content to evaluate against the detection engine.
+        session_id:
+          type: string
+          description: Optional session identifier. When supplied, PromptArmor also runs session-based anomaly detection across the session.
+        detectors:
+          type: array
+          description: Optional list of detectors to apply in addition to / instead of the default detectors (data exfiltration, phishing, system manipulation, adversarial instructions).
+          items:
+            type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Api-Key
+      description: PromptArmor API key passed in the Api-Key request header.

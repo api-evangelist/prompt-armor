@@ -1,0 +1,16 @@
+{
+  "provider": "prompt-armor",
+  "sources": [
+    "prompt-armor-analyze-api-openapi.yml",
+    "prompt-armor-content-check-api-openapi.yml"
+  ],
+  "outputs": [
+    "prompt-armor-analyze-api-openapi.yml",
+    "prompt-armor-content-check-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

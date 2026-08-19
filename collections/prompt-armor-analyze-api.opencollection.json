@@ -1,0 +1,56 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PromptArmor Analyze API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Api-Key",
+      "value": "{{Api-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Analyze",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Analyze LLM input.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.promptarmor.com/v1/analyze/input",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Analyzes LLM input (for example an email your LLM is about to summarize) and runs the detectors - including adversarial input detection - returning a verdict. When a session_id is supplied, session-based anomaly detection is also run."
+        },
+        {
+          "info": {
+            "name": "Analyze LLM output.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.promptarmor.com/v1/analyze/output",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Analyzes LLM output (for example the summary your LLM produced) and runs the detectors - including data exfiltration detection - returning a verdict. When a session_id is supplied, session-based anomaly detection is also run."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

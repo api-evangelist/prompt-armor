@@ -1,0 +1,246 @@
+{
+  "item": [
+    {
+      "id": "931fa617-35b8-477f-bba7-7a208b879570",
+      "name": "Content Check",
+      "description": {
+        "content": "Single-call content verdict against the detection engine.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4b245e9e-9d47-4e8d-8ea3-b89c01505855",
+          "name": "Check content for adversarial / injected instructions.",
+          "request": {
+            "name": "Check content for adversarial / injected instructions.",
+            "description": {
+              "content": "Submits content (such as untrusted text an LLM is about to summarize or act on) to the PromptArmor detection engine and returns a verdict indicating whether the content matches known threat classes. The response includes a containsInjection boolean.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "check_content"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": \"<string>\",\n  \"session_id\": \"<string>\",\n  \"detectors\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "4b34e007-88aa-4c1f-b17f-5306bb55fa5d",
+              "name": "Detection verdict.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "check_content"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Api-Key",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"content\": \"<string>\",\n  \"session_id\": \"<string>\",\n  \"detectors\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"containsInjection\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9e902dbe-b6b6-4dec-9ffb-c8492e6d146f",
+              "name": "Missing or invalid Api-Key.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "check_content"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"content\": \"<string>\",\n  \"session_id\": \"<string>\",\n  \"detectors\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "41a3d3e8-fa30-4e73-8087-1f6091895809",
+              "name": "Rate limited.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "check_content"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Api-Key",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"content\": \"<string>\",\n  \"session_id\": \"<string>\",\n  \"detectors\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.promptarmor.com",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Api-Key"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "6dc6d3fc-b837-4760-9331-fb34e3d0a0d9",
+    "name": "PromptArmor Analyze Content Check API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "PromptArmor is an LLM application security platform that detects and blocks indirect prompt injection, data exfiltration, phishing, and system manipulation in production AI applications. Content submitted to the API is run through a detection engine of default and modifiable detectors and a fast verdict (for example containsInjection) is returned so the calling application can block or allow the content before a completion is acted on.\n\nNOTE: PromptArmor's full API reference at https://promptarmor.readme.io is gated behind authentication. This specification reflects the endpoints, authentication scheme (Api-Key header), base URL (https://api.promptarmor.com), and request/response fields that are publicly documented in PromptArmor's architecture overview and integration guides. Field names beyond the confirmed `containsInjection` verdict and the `content`, `text`, `session_id`, and `detectors` request parameters are modeled conservatively and should be reconciled against the authenticated docs.\n\nContact Support:\n Name: PromptArmor",
+      "type": "text/plain"
+    }
+  }
+}

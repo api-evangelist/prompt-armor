@@ -1,0 +1,41 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "PromptArmor Analyze Content Check API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Api-Key",
+      "value": "{{Api-Key}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Content Check",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Check content for adversarial / injected instructions.",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.promptarmor.com/v1/check_content",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submits content (such as untrusted text an LLM is about to summarize or act on) to the PromptArmor detection engine and returns a verdict indicating whether the content matches known threat classes. The response includes a containsInjection boolean."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

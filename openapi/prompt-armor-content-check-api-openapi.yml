@@ -1,10 +1,7 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
-  title: PromptArmor Analyze Content Check API
-  description: 'PromptArmor is an LLM application security platform that detects and blocks indirect prompt injection, data exfiltration, phishing, and system manipulation in production AI applications. Content submitted to the API is run through a detection engine of default and modifiable detectors and a fast verdict (for example containsInjection) is returned so the calling application can block or allow the content before a completion is acted on.
-
-
-    NOTE: PromptArmor''s full API reference at https://promptarmor.readme.io is gated behind authentication. This specification reflects the endpoints, authentication scheme (Api-Key header), base URL (https://api.promptarmor.com), and request/response fields that are publicly documented in PromptArmor''s architecture overview and integration guides. Field names beyond the confirmed `containsInjection` verdict and the `content`, `text`, `session_id`, and `detectors` request parameters are modeled conservatively and should be reconciled against the authenticated docs.'
+  title: PromptArmor Content Check API
+  description: PromptArmor is an LLM application security platform that detects and blocks indirect prompt injection, data exfiltration, phishing, and system manipulation in production AI applications.
   termsOfService: https://www.promptarmor.com/
   contact:
     name: PromptArmor
@@ -24,7 +21,7 @@ paths:
       operationId: checkContent
       tags:
       - Content Check
-      summary: Check content for adversarial / injected instructions.
+      summary: Check content for adversarial / injected instructions
       description: Submits content (such as untrusted text an LLM is about to summarize or act on) to the PromptArmor detection engine and returns a verdict indicating whether the content matches known threat classes. The response includes a containsInjection boolean.
       requestBody:
         required: true

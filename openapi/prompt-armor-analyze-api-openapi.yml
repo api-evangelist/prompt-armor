@@ -1,10 +1,7 @@
-openapi: 3.0.1
+openapi: 3.2.0
 info:
   title: PromptArmor Analyze API
-  description: 'PromptArmor is an LLM application security platform that detects and blocks indirect prompt injection, data exfiltration, phishing, and system manipulation in production AI applications. Content submitted to the API is run through a detection engine of default and modifiable detectors and a fast verdict (for example containsInjection) is returned so the calling application can block or allow the content before a completion is acted on.
-
-
-    NOTE: PromptArmor''s full API reference at https://promptarmor.readme.io is gated behind authentication. This specification reflects the endpoints, authentication scheme (Api-Key header), base URL (https://api.promptarmor.com), and request/response fields that are publicly documented in PromptArmor''s architecture overview and integration guides. Field names beyond the confirmed `containsInjection` verdict and the `content`, `text`, `session_id`, and `detectors` request parameters are modeled conservatively and should be reconciled against the authenticated docs.'
+  description: PromptArmor is an LLM application security platform that detects and blocks indirect prompt injection, data exfiltration, phishing, and system manipulation in production AI applications.
   termsOfService: https://www.promptarmor.com/
   contact:
     name: PromptArmor
@@ -24,7 +21,7 @@ paths:
       operationId: analyzeInput
       tags:
       - Analyze
-      summary: Analyze LLM input.
+      summary: Analyze LLM input
       description: Analyzes LLM input (for example an email your LLM is about to summarize) and runs the detectors - including adversarial input detection - returning a verdict. When a session_id is supplied, session-based anomaly detection is also run.
       requestBody:
         required: true
@@ -48,7 +45,7 @@ paths:
       operationId: analyzeOutput
       tags:
       - Analyze
-      summary: Analyze LLM output.
+      summary: Analyze LLM output
       description: Analyzes LLM output (for example the summary your LLM produced) and runs the detectors - including data exfiltration detection - returning a verdict. When a session_id is supplied, session-based anomaly detection is also run.
       requestBody:
         required: true
@@ -69,17 +66,6 @@ paths:
           description: Rate limited.
 components:
   schemas:
-    AnalyzeResponse:
-      type: object
-      properties:
-        containsInjection:
-          type: boolean
-          description: True when the analyzed text matches a known injection / threat class.
-        detectors:
-          type: object
-          description: Per-detector results. A detector value of true indicates an issue was found for that detection type (for example data exfiltration, phishing, system manipulation, adversarial instructions).
-          additionalProperties:
-            type: boolean
     AnalyzeRequest:
       type: object
       required:
@@ -96,6 +82,17 @@ components:
           description: Optional list of detectors to apply for this request.
           items:
             type: string
+    AnalyzeResponse:
+      type: object
+      properties:
+        containsInjection:
+          type: boolean
+          description: True when the analyzed text matches a known injection / threat class.
+        detectors:
+          type: object
+          description: Per-detector results. A detector value of true indicates an issue was found for that detection type (for example data exfiltration, phishing, system manipulation, adversarial instructions).
+          additionalProperties:
+            type: boolean
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

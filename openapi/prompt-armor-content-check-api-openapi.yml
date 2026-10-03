@@ -42,6 +42,12 @@ paths:
           description: Rate limited.
 components:
   schemas:
+    CheckContentResponse:
+      type: object
+      properties:
+        containsInjection:
+          type: boolean
+          description: True when the content matches a known injection / threat class. A detector returning true indicates an issue was found for that detection type.
     CheckContentRequest:
       type: object
       required:
@@ -58,12 +64,6 @@ components:
           description: Optional list of detectors to apply in addition to / instead of the default detectors (data exfiltration, phishing, system manipulation, adversarial instructions).
           items:
             type: string
-    CheckContentResponse:
-      type: object
-      properties:
-        containsInjection:
-          type: boolean
-          description: True when the content matches a known injection / threat class. A detector returning true indicates an issue was found for that detection type.
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

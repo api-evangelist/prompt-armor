@@ -66,6 +66,17 @@ paths:
           description: Rate limited.
 components:
   schemas:
+    AnalyzeResponse:
+      type: object
+      properties:
+        containsInjection:
+          type: boolean
+          description: True when the analyzed text matches a known injection / threat class.
+        detectors:
+          type: object
+          description: Per-detector results. A detector value of true indicates an issue was found for that detection type (for example data exfiltration, phishing, system manipulation, adversarial instructions).
+          additionalProperties:
+            type: boolean
     AnalyzeRequest:
       type: object
       required:
@@ -82,17 +93,6 @@ components:
           description: Optional list of detectors to apply for this request.
           items:
             type: string
-    AnalyzeResponse:
-      type: object
-      properties:
-        containsInjection:
-          type: boolean
-          description: True when the analyzed text matches a known injection / threat class.
-        detectors:
-          type: object
-          description: Per-detector results. A detector value of true indicates an issue was found for that detection type (for example data exfiltration, phishing, system manipulation, adversarial instructions).
-          additionalProperties:
-            type: boolean
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

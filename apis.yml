@@ -88,6 +88,9 @@ apis:
   - type: OpenCollection
     url: collections/prompt-armor.opencollection.json
 common:
+- type: CapabilityMap
+  url: capabilities/prompt-armor-capability-edges.yml
+  name: PromptArmor Business Capability Map
 - type: AgenticAccess
   url: agentic-access/prompt-armor-agentic-access.yml
 - type: VulnerabilityDisclosure

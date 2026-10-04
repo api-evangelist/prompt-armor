@@ -1,0 +1,36 @@
+slug: prompt-armor
+provider: PromptArmor
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Analyze
+  spec_file: prompt-armor-analyze-api-openapi.yml
+  capability_id: BC-620.30
+  capability_id_l1: BC-620
+  capability_name: Threat Detection & Response Management
+  confidence: 0.72
+  evidence: POST /v1/analyze/input "Analyze LLM input"; vendor "detects and blocks indirect prompt injection,
+    data exfiltration, phishing, and system manipulation in production AI applications"
+  reason: Real-time analysis of LLM traffic against threat detectors returning a block/allow verdict is
+    threat detection and response, a cybersecurity capability. Ambiguity remains with AI governance framing,
+    so not maximal confidence.
+- tag: Content Check
+  spec_file: prompt-armor-content-check-api-openapi.yml
+  capability_id: BC-620.30
+  capability_id_l1: BC-620
+  capability_name: Threat Detection & Response Management
+  confidence: 0.72
+  evidence: POST /v1/check_content "Check content for adversarial / injected instructions"
+  reason: Scanning content for adversarial/injected instructions is detection of attacks against the AI
+    application — threat detection. Could alternatively be read as responsible-AI control, hence moderate
+    confidence.
